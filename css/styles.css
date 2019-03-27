@@ -1,10 +1,30 @@
+
 body {
-    background-color: steelblue;
-    margin: 100px;
+    background-color: rosybrown;
 }
 
 button {
     height: 50px;
     width: 50px;
     margin: 5px;
+    border-radius: 10px;
+}
+
+#calcBox {
+    margin: 100px;
+    width: 320px;
+    height: 500px;
+    border: black solid 5px;
+    border-radius: 20px;
+    background-color: midnightblue;
+}
+
+#display {
+    text-align: right;
+    margin: 20px;
+    padding-right: 10px;
+    background-color: lightskyblue;
+    height: 40px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: xx-large;
 }
