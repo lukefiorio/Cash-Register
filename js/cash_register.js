@@ -12,16 +12,10 @@
 ```
 */
 
-var allButtons = document.getElementsByTagName('button');
 var digits = document.getElementsByClassName('digit');
 var operators = document.getElementsByClassName('operator');
 var executors = document.getElementsByClassName('exe');
 
-/*
-for (var i=0; i<allButtons.length; i++) {
-    allButtons[i].addEventListener('click',call);
-}
-*/
 
 for (var i=0; i<digits.length; i++) {
     digits[i].addEventListener('click',displayDigit);
@@ -35,57 +29,37 @@ for (var i=0; i<executors.length; i++) {
     executors[i].addEventListener('click',execute);
 }
 
-/*
-function call() {
-    var justClicked = this.className;
-    if (justClicked==='digit') {
-
-    }
-}
-*/
 var lastClicked = null;
 var lastOpClicked = null;
 var bal=0;
 var num1=null;
 
 function displayDigit() {
-    // part 1: when to start fresh
-    var startFresh = (display.innerHTML==='0' || lastClicked.className==='exe' || lastClicked.className==='operator') && this.id!=='dot' && this.id!=='dblZero';
-    //console.log('start fresh:'+startFresh);
 
+    
+    var startFresh = (display.innerHTML==='0' || lastClicked.className==='exe' || lastClicked.className==='operator')
+    //console.log('start fresh: '+startFresh);
+
+    // if display = 0 or last click was non-digit --> overwrite display value
     if (startFresh === true) {
-        display.innerHTML = this.innerHTML;
-    } else {
-        if (this.id!=='dot' || display.innerHTML.indexOf('.')===-1) {
-            display.innerHTML += this.innerHTML;
+        if (this.id==='dblZero') {
+            //nothing
+        } else if (this.id==='dot') {
+            display.innerHTML = '0.';
+            lastClicked = this;
+        } else {
+            display.innerHTML = this.innerHTML;
+            lastClicked = this;
         }
-    }
-
-    // part 2: when to append
-    // display != 0
-
-
-/*
-    // max 1 decimal point in display
-    if (this.id==='dot') {
-        if (display.innerHTML.indexOf('.')===-1) {
-            display.innerHTML += this.innerHTML;
-        }
-    // proceed normally if not dealing w decimal
+    // otherwise --> append to display value
     } else {
-        if (display.innerHTML==='0') {
-            // don't display '00' if existing display set to 0
-            if (this.id!=='dblZero') {
-                display.innerHTML=this.innerHTML;
-            }
-        // if not one of the special cases above append digit to end
+        if (this.id==='dot' && display.innerHTML.indexOf('.')!==-1) {
+            //nothing
         } else {
             display.innerHTML += this.innerHTML;
+            lastClicked = this;
         }
     }
-*/
-    //console.log(lastOpClicked);
-    lastClicked = this;
 }
 
 function operate() {
@@ -144,25 +118,3 @@ function calculate() {
         display.innerHTML = num1 / Number(display.innerHTML);
     }
 }
-
-/*
-var lastClickedId=null;
-
-function drillEmail() {
-
-    if (typeof lastClickedId===null || lastClickedId!==this.id) {
-        emailSubject.innerHTML = this.querySelectorAll('.subject')[0].innerHTML;
-        emailSender.innerHTML = this.querySelectorAll('.sender')[0].innerHTML;
-        emailDate.innerHTML = this.querySelectorAll('.date')[0].innerHTML;
-        emailBody.innerHTML = this.querySelectorAll('.body')[0].value;
-        lastClickedId = this.id;
-    } else {
-        emailSubject.innerHTML = '';
-        emailSender.innerHTML = '';
-        emailDate.innerHTML = '';
-        emailBody.innerHTML ='';
-        lastClickedId = null;
-    }
-
-}
-*/
