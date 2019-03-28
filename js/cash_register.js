@@ -12,6 +12,8 @@
 ```
 */
 
+printer.src = 'https://st.depositphotos.com/1000868/3034/v/450/depositphotos_30346593-stock-illustration-white-curled-paper-check-going.jpg';
+
 var digits = document.getElementsByClassName('digit');
 var operators = document.getElementsByClassName('operator');
 var executors = document.getElementsByClassName('exe');
@@ -62,6 +64,24 @@ function displayDigit() {
     }
 }
 
+function PrintReceipt(num,exec) {
+
+    // can hold a max of 13 line items
+
+    // make receipt class to hold receipts
+    var receiptLine = document.createElement('div');
+    receiptLine.className = 'receipt';
+    // assign ID based on distance from end of receipt
+    receiptLine.id = 'rcptFromBot'+receipts.childElementCount;
+    // insert new receipt at the top before 1st child unless none [children] yet
+    if (receipts.childElementCount===0) {
+        receipts.appendChild(receiptLine);
+    } else if (receipts.childElementCount<=12) {
+        receipts.insertBefore(receiptLine,receipts.firstChild);
+    }
+    receiptLine.innerHTML=exec.innerHTML+": "+num;
+}
+
 function operate() {
     var self = this;
     if (lastOpClicked===null) {
@@ -90,18 +110,28 @@ function setNewOp(obj) {
 }
 
 function execute() {
+
+    var rndDisp = Math.round(100*Number(display.innerHTML))/100;
+    var rndBal = Math.round(100*bal)/100;
+
     if (this.id==='clear') {
         display.innerHTML=0;
     } else if (this.id==='getBal') {
-        display.innerHTML=bal;
+        display.innerHTML=rndBal;
+        PrintReceipt(rndBal,this);
     } else if (this.id==='dep') {
-        bal += Number(display.innerHTML);
+        bal += rndDisp;
         display.innerHTML=0;
+        PrintReceipt("+"+rndDisp,this);
     } else if (this.id==='wdr') {
-        bal -= display.innerHTML;
+        bal -= rndDisp;
         display.innerHTML=0;
+        PrintReceipt("-"+rndDisp,this);
     } else if (this.id==='equal') {
         calculate();
+    } else if (this.id==='clrAll') {
+        display.innerHTML=0;
+        bal = 0;
     }
     lastClicked = this;
     clearLastOp()
@@ -109,12 +139,13 @@ function execute() {
 
 function calculate() {
     if (lastOpClicked.id==='plus') {
-        display.innerHTML = num1 + Number(display.innerHTML);
+        display.innerHTML = parseFloat(Math.round(100*(num1 + Number(display.innerHTML)))/100).toFixed(2);
     } else if (lastOpClicked.id==='minus') {
-        display.innerHTML = num1 - Number(display.innerHTML);
+        display.innerHTML = parseFloat(Math.round(100*(num1 - Number(display.innerHTML)))/100).toFixed(2);
     } else if (lastOpClicked.id==='mltp') {
-        display.innerHTML = num1 * Number(display.innerHTML);
+        display.innerHTML = parseFloat(Math.round(100*(num1 * Number(display.innerHTML)))/100).toFixed(2);
     } else if (lastOpClicked.id==='divide') {
-        display.innerHTML = num1 / Number(display.innerHTML);
+        display.innerHTML = parseFloat(Math.round(100*(num1 / Number(display.innerHTML)))/100).toFixed(2);
     }
 }
+
