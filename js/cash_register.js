@@ -12,6 +12,8 @@
 ```
 */
 
+var hiddenCalc = calculatorModule();
+
 printer.src = 'https://st.depositphotos.com/1000868/3034/v/450/depositphotos_30346593-stock-illustration-white-curled-paper-check-going.jpg';
 
 var digits = document.getElementsByClassName('digit');
@@ -128,24 +130,11 @@ function execute() {
         display.innerHTML=0;
         PrintReceipt("-"+rndDisp,this);
     } else if (this.id==='equal') {
-        calculate();
+        display.innerHTML = hiddenCalc.calculation();
     } else if (this.id==='clrAll') {
-        display.innerHTML=0;
-        bal = 0;
+        // rather than reset all properties, reload page
+        document.location.reload();
     }
     lastClicked = this;
     clearLastOp()
 }
-
-function calculate() {
-    if (lastOpClicked.id==='plus') {
-        display.innerHTML = parseFloat(Math.round(100*(num1 + Number(display.innerHTML)))/100).toFixed(2);
-    } else if (lastOpClicked.id==='minus') {
-        display.innerHTML = parseFloat(Math.round(100*(num1 - Number(display.innerHTML)))/100).toFixed(2);
-    } else if (lastOpClicked.id==='mltp') {
-        display.innerHTML = parseFloat(Math.round(100*(num1 * Number(display.innerHTML)))/100).toFixed(2);
-    } else if (lastOpClicked.id==='divide') {
-        display.innerHTML = parseFloat(Math.round(100*(num1 / Number(display.innerHTML)))/100).toFixed(2);
-    }
-}
-

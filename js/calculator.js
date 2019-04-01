@@ -2,81 +2,19 @@
 
 var calculatorModule = function() {
 
-    var memory=0;
-    var total=0;
-
-    var load = function(x) {
-        if (typeof(x) === 'number') {
-            total = x;
-            return total;
-        } else {
-            throw error;
+    var calculation = function() {
+        if (lastOpClicked.id==='plus') {
+            return parseFloat(Math.round(100*(num1 + Number(display.innerHTML)))/100).toFixed(2);
+        } else if (lastOpClicked.id==='minus') {
+            return parseFloat(Math.round(100*(num1 - Number(display.innerHTML)))/100).toFixed(2);
+        } else if (lastOpClicked.id==='mltp') {
+            return parseFloat(Math.round(100*(num1 * Number(display.innerHTML)))/100).toFixed(2);
+        } else if (lastOpClicked.id==='divide') {
+            return parseFloat(Math.round(100*(num1 / Number(display.innerHTML)))/100).toFixed(2);
         }
-    }
-
-    var getTotal = function() {
-        return total;
-    }
-
-    var add = function(x) {
-        if (typeof(x) === 'number') {
-            total += x;
-            return total;
-        } else {
-            throw error;
-        }
-    }
-
-    var subtract = function(x) {
-        if (typeof(x) === 'number') {
-            total -= x;
-            return total;
-        } else {
-            throw error;
-        }
-    }
-
-    var multiply = function(x) {
-        if (typeof(x) === 'number') {
-            total *= x;
-            return total;
-        } else {
-            throw error;
-        }
-    }
-
-    var divide = function(x) {
-        if (typeof(x) === 'number') {
-            total /= x;
-            return total;
-        } else {
-            throw error;
-        }
-    }
-
-    var recallMemory = function() {
-        return memory;
-    }
-
-    var saveMemory = function() {
-        memory = total;
-        return memory;
-    }
-
-    var clearMemory = function() {
-        memory = 0;
-        return memory;
     }
 
 return {
-    load: load,
-    getTotal: getTotal,
-    add: add,
-    subtract: subtract,
-    multiply: multiply,
-    divide: divide,
-    recallMemory: recallMemory,
-    saveMemory: saveMemory,
-    clearMemory: clearMemory
+    calculation: calculation
     }
 }
