@@ -66,22 +66,37 @@ function displayDigit() {
     }
 }
 
-function PrintReceipt(num,exec) {
 
-    // can hold a max of 13 line items
+function PrintReceipt(num,exec) {
 
     // make receipt class to hold receipts
     var receiptLine = document.createElement('div');
-    receiptLine.className = 'receipt';
+    receiptLine.className = 'receiptLines';
     // assign ID based on distance from end of receipt
     receiptLine.id = 'rcptFromBot'+receipts.childElementCount;
+    var receiptClass = document.getElementsByClassName('receiptLines');
+
+    var receiptFunc = document.createElement('span');
+    var receiptAmt = document.createElement('span');
+    receiptAmt.className= 'receiptAmts';
+    
+
     // insert new receipt at the top before 1st child unless none [children] yet
     if (receipts.childElementCount===0) {
         receipts.appendChild(receiptLine);
-    } else if (receipts.childElementCount<=12) {
+
+    } else if (receipts.childElementCount<=11) {
         receipts.insertBefore(receiptLine,receipts.firstChild);
+    } else if (receipts.childElementCount>11) {
+        receipts.insertBefore(receiptLine,receipts.firstChild);
+        receiptClass[12].remove();
     }
-    receiptLine.innerHTML=exec.innerHTML+": "+num;
+
+    receiptClass[0].appendChild(receiptFunc);
+    receiptClass[0].appendChild(receiptAmt);
+    receiptFunc.innerHTML=exec.innerHTML+": ";
+    receiptAmt.innerHTML=num;
+    console.log(parseFloat(Number(num)).toFixed(2))
 }
 
 function operate() {
@@ -120,15 +135,15 @@ function execute() {
         display.innerHTML=0;
     } else if (this.id==='getBal') {
         display.innerHTML=rndBal;
-        PrintReceipt(rndBal,this);
+        PrintReceipt("$"+parseFloat(rndBal).toFixed(2),this);
     } else if (this.id==='dep') {
         bal += rndDisp;
         display.innerHTML=0;
-        PrintReceipt("+"+rndDisp,this);
+        PrintReceipt("+$"+parseFloat(rndDisp).toFixed(2),this);
     } else if (this.id==='wdr') {
         bal -= rndDisp;
         display.innerHTML=0;
-        PrintReceipt("-"+rndDisp,this);
+        PrintReceipt("-$"+parseFloat(rndDisp).toFixed(2),this);
     } else if (this.id==='equal') {
         display.innerHTML = hiddenCalc.calculation();
     } else if (this.id==='clrAll') {

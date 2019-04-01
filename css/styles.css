@@ -53,6 +53,13 @@ button {
 
 #receipts {
     position: relative;
-    margin-top: -320px;
+    margin-top: -325px;
     margin-left: 100px;
+}
+
+.receiptLines {
+    margin-bottom: 2px;
+    width: 120px;
+    display: flex;
+    justify-content: space-between;
 }
