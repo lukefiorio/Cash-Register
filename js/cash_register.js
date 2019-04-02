@@ -12,7 +12,7 @@
 ```
 */
 
-var hiddenCalc = calculatorModule();
+const hiddenCalc = calculatorModule();
 
 var digits = document.getElementsByClassName('digit');
 var operators = document.getElementsByClassName('operator');
@@ -42,7 +42,7 @@ function displayDigit() {
 
     // if display = 0 or last click was non-digit --> overwrite display value
     if (startFresh === true) {
-        if (this.id==='dblZero') {
+        if (this.id === 'dblZero') {
             //nothing
         } else if (this.id === 'dot') {
             display.innerHTML = '0.';
@@ -73,34 +73,33 @@ function PrintReceipt(num,exec) {
 
     var receiptFunc = document.createElement('span');
     var receiptAmt = document.createElement('span');
-    receiptAmt.className= 'receiptAmts';
+    receiptAmt.className = 'receiptAmts';
 
     // insert new receipt at the top before 1st child unless none [children] yet
-    if (receipts.childElementCount===0) {
+    if (receipts.childElementCount === 0) {
         receipts.appendChild(receiptLine);
 
-    } else if (receipts.childElementCount<=11) {
+    } else if (receipts.childElementCount <=11) {
         receipts.insertBefore(receiptLine,receipts.firstChild);
-    } else if (receipts.childElementCount>11) {
+    } else if (receipts.childElementCount >11) {
         receipts.insertBefore(receiptLine,receipts.firstChild);
         receiptClass[12].remove();
     }
 
     receiptClass[0].appendChild(receiptFunc);
     receiptClass[0].appendChild(receiptAmt);
-    receiptFunc.innerHTML=exec.innerHTML+": ";
-    receiptAmt.innerHTML=num;
-    console.log(parseFloat(Number(num)).toFixed(2))
+    receiptFunc.innerHTML = exec.innerHTML+": ";
+    receiptAmt.innerHTML = num;
 }
 
 function operate() {
     var self = this;
-    if (lastOpClicked===null) {
+    if (lastOpClicked === null) {
         setNewOp(self)
-    } else if (lastOpClicked!==null && lastOpClicked!==this) {
+    } else if (lastOpClicked !== null && lastOpClicked !== this) {
         clearLastOp()
         setNewOp(self)
-    } else if (lastOpClicked!==null && lastOpClicked===this) {
+    } else if (lastOpClicked !== null && lastOpClicked === this) {
         clearLastOp()
     }
     lastClicked = lastOpClicked;
@@ -141,7 +140,7 @@ function execute() {
     } else if (this.id === 'equal') {
         display.innerHTML = hiddenCalc.calculation();
     } else if (this.id === 'clrAll') {
-        // reset all properties/new elements rathern than reload page
+        // reset all properties rather than reload page
         display.innerHTML = 0;
         bal = 0;
         while (receipts.firstChild) {
