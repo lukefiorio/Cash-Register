@@ -14,8 +14,6 @@
 
 var hiddenCalc = calculatorModule();
 
-printer.src = 'https://st.depositphotos.com/1000868/3034/v/450/depositphotos_30346593-stock-illustration-white-curled-paper-check-going.jpg';
-
 var digits = document.getElementsByClassName('digit');
 var operators = document.getElementsByClassName('operator');
 var executors = document.getElementsByClassName('exe');
@@ -35,12 +33,10 @@ for (var i=0; i<executors.length; i++) {
 
 var lastClicked = null;
 var lastOpClicked = null;
-var bal=0;
-var num1=null;
+var bal = 0;
+var num1 = null;
 
 function displayDigit() {
-
-    
     var startFresh = (display.innerHTML==='0' || lastClicked.className==='exe' || lastClicked.className==='operator')
     //console.log('start fresh: '+startFresh);
 
@@ -48,7 +44,7 @@ function displayDigit() {
     if (startFresh === true) {
         if (this.id==='dblZero') {
             //nothing
-        } else if (this.id==='dot') {
+        } else if (this.id === 'dot') {
             display.innerHTML = '0.';
             lastClicked = this;
         } else {
@@ -57,7 +53,7 @@ function displayDigit() {
         }
     // otherwise --> append to display value
     } else {
-        if (this.id==='dot' && display.innerHTML.indexOf('.')!==-1) {
+        if (this.id === 'dot' && display.innerHTML.indexOf('.') !== -1) {
             //nothing
         } else {
             display.innerHTML += this.innerHTML;
@@ -68,7 +64,6 @@ function displayDigit() {
 
 
 function PrintReceipt(num,exec) {
-
     // make receipt class to hold receipts
     var receiptLine = document.createElement('div');
     receiptLine.className = 'receiptLines';
@@ -79,7 +74,6 @@ function PrintReceipt(num,exec) {
     var receiptFunc = document.createElement('span');
     var receiptAmt = document.createElement('span');
     receiptAmt.className= 'receiptAmts';
-    
 
     // insert new receipt at the top before 1st child unless none [children] yet
     if (receipts.childElementCount===0) {
@@ -131,24 +125,28 @@ function execute() {
     var rndDisp = Math.round(100*Number(display.innerHTML))/100;
     var rndBal = Math.round(100*bal)/100;
 
-    if (this.id==='clear') {
-        display.innerHTML=0;
-    } else if (this.id==='getBal') {
-        display.innerHTML=rndBal;
+    if (this.id === 'clear') {
+        display.innerHTML = 0;
+    } else if (this.id === 'getBal') {
+        display.innerHTML = rndBal;
         PrintReceipt("$"+parseFloat(rndBal).toFixed(2),this);
-    } else if (this.id==='dep') {
+    } else if (this.id === 'dep') {
         bal += rndDisp;
-        display.innerHTML=0;
+        display.innerHTML = 0;
         PrintReceipt("+$"+parseFloat(rndDisp).toFixed(2),this);
-    } else if (this.id==='wdr') {
+    } else if (this.id === 'wdr') {
         bal -= rndDisp;
-        display.innerHTML=0;
+        display.innerHTML = 0;
         PrintReceipt("-$"+parseFloat(rndDisp).toFixed(2),this);
-    } else if (this.id==='equal') {
+    } else if (this.id === 'equal') {
         display.innerHTML = hiddenCalc.calculation();
-    } else if (this.id==='clrAll') {
-        // rather than reset all properties, reload page
-        document.location.reload();
+    } else if (this.id === 'clrAll') {
+        // reset all properties/new elements rathern than reload page
+        display.innerHTML = 0;
+        bal = 0;
+        while (receipts.firstChild) {
+            receipts.removeChild(receipts.firstChild);
+        }
     }
     lastClicked = this;
     clearLastOp()
